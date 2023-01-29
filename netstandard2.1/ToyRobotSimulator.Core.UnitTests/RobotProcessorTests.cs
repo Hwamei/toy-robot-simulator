@@ -259,6 +259,26 @@ namespace ToyRobotSimulator.Core.UnitTests
         }
 
         /// <summary>
+        /// Test disgard commands prior placement
+        /// </summary>
+        /// <param name="command"></param>
+        [Theory]
+        [InlineData("USE MOVE REPORT LEFT RIGHT PLACE 1,2,EAST MOVE REPORT")]
+        [InlineData("  use move  report  LeFT  RIGHT  PLACE 1,2,EAST  MOVE REPORT  ")]
+        public void RobotProcessor_ValidCommand_CommandsPriorPlace_ReturnCorrectResult(string command)
+        {
+            var robotCommands = _commandParser.Parse(command);
+            var messages = _commandExecutor.Execute(robotCommands);
+
+            Assert.Equal(3, robotCommands.Count);
+            Assert.Equal(RobotActionEnum.Place, robotCommands.Select(c => c.Action).FirstOrDefault());
+            Assert.Equal(RobotActionEnum.Move, robotCommands[1].Action);
+            Assert.Equal(RobotActionEnum.Report, robotCommands.Select(c => c.Action).LastOrDefault());
+
+            Assert.Equal("2,2,EAST", messages.SingleOrDefault());
+        }
+
+        /// <summary>
         /// Test place input param with spaces
         /// </summary>
         /// <param name="command"></param>
