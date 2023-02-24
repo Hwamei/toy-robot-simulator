@@ -91,3 +91,8 @@ Output: 3,2,NORTH
 - You should provide build scripts or instructions to build and run the solution.
 - There should be a user interface to run the solution and assess that it works correctly. This could be a command prompt interface that takes one string command in at a time.
 - The code should be original and you may not use any external libraries or open source code to solve this problem, but you may use external libraries or tools for building or testing purposes.
+
+# Common Mistakes
+- The direction paramter of the PLACE command should be optional after the first use.
+- Failed to ignore the direction for subsequent PLACE commands - PLACE X,Y is not accepted as a valid command when the robot is already on the table
+- Application does not handle spaces in between the PLACE command input parameters
